@@ -73,7 +73,7 @@ const displayMovements = movements => {
     const html = `
   <div class="movements__row">
     <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-    <div class="movements__value">${movement}</div>
+    <div class="movements__value">${movement} EUR</div>
   </div>
     `;
 
@@ -82,6 +82,32 @@ const displayMovements = movements => {
 }
 
 displayMovements(account1.movements);
+
+
+const createUserNames = function(accs) {
+  accs.forEach(function(acc) {
+    acc.username = acc.owner.toLowerCase().split(' ').map(name => name[0]).join('');
+  });
+}
+
+createUserNames(accounts);
+
+const calcPrintBalance = movements => {
+  const balance = movements.reduce((accu, currVal) => accu + currVal);
+  labelBalance.textContent = `${balance} EUR`;
+}
+
+calcPrintBalance(account1.movements);
+
+const calcDisplaySummary = movements => {
+  const incomes = movements.filter(move => move > 0).reduce((accu, curVal) => accu + curVal);
+  labelSumIn.textContent = `${incomes} EUR`;
+
+  const outcomes = movements.filter(move => move < 0).reduce((accu, currVal) => accu + currVal);
+  labelSumOut.textContent = `${outcomes} EUR`;
+}
+
+calcDisplaySummary(account1.movements);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -95,5 +121,21 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const deposits = movements.filter( element => element > 0);
+const withdrawals = movements.filter( element => element < 0);
+const balance = movements.reduce((accu, currval) => accu + currval);
+
 /////////////////////////////////////////////////
 
+// const calcDogAgeinHumanYears = function(ages) {
+
+//   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+//   const adults = humanAges.filter(age => age <= 18);
+//   const average = humanAges.reduce((accu, currVal) => (accu + currVal) / humanAges.length);
+
+//   console.log(adults);
+//   console.log(humanAges);
+//   console.log(average);
+// }
+
+// calcDogAgeinHumanYears([5,2,4,1,15,8,3]);

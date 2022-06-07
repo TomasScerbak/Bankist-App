@@ -106,7 +106,14 @@ const calcDisplaySummary = movements => {
   const outcomes = movements.filter(move => move < 0).reduce((accu, currVal) => accu + currVal);
   labelSumOut.textContent = `${outcomes} EUR`;
 
-  const interest = movements.filter(move => move > 0).map(deposit => deposit * 1.2 / 100).reduce((accu, currVal) => accu + currVal);
+  const interest = movements
+  .filter(move => move > 0)
+  .map(deposit => deposit * 1.2 / 100)
+  .filter((int, i, arr) => {
+    console.log(arr);
+    return int >= 1;
+  })
+  .reduce((accu, currVal) => accu + currVal);
 
   labelSumInterest.textContent = interest;
 }

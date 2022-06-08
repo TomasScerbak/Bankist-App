@@ -184,22 +184,40 @@ btnClose.addEventListener('click', event => {
 
 })
 
+// Implementing Loan functionality
+btnLoan.addEventListener('click', event => {
+  event.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+// Loan is granted if there's at least one deposit which is 10% from the requested amount
+  if (amount > 0 && currentAccount.movements.some(move => move >= amount / 10)) {
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
+  }
+
+  // Clearing input field
+  inputLoanAmount.value = '';
+})
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const deposits = movements.filter( element => element > 0);
-const withdrawals = movements.filter( element => element < 0);
-const balance = movements.reduce((accu, currval) => accu + currval);
+
+// const deposits = movements.filter( element => element > 0);
+// const withdrawals = movements.filter( element => element < 0);
+// const balance = movements.reduce((accu, currval) => accu + currval);
 
 /////////////////////////////////////////////////
 

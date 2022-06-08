@@ -81,8 +81,6 @@ const displayMovements = movements => {
   })
 }
 
-displayMovements(account1.movements);
-
 
 const createUserNames = function(accs) {
   accs.forEach(function(acc) {
@@ -92,25 +90,25 @@ const createUserNames = function(accs) {
 
 createUserNames(accounts);
 
-const calcPrintBalance = movements => {
-  const balance = movements.reduce((accu, currVal) => accu + currVal);
+
+const calcPrintBalance = acc => {
+  const balance = acc.movements.reduce((accu, currVal) => accu + currVal);
   labelBalance.textContent = `${balance} EUR`;
+
+  acc.balance = balance;
 }
 
-calcPrintBalance(account1.movements);
-
-const calcDisplaySummary = movements => {
-  const incomes = movements.filter(move => move > 0).reduce((accu, curVal) => accu + curVal);
+const calcDisplaySummary = (acc) => {
+  const incomes = acc.movements.filter(move => move > 0).reduce((accu, curVal) => accu + curVal);
   labelSumIn.textContent = `${incomes} EUR`;
 
-  const outcomes = movements.filter(move => move < 0).reduce((accu, currVal) => accu + currVal);
+  const outcomes = acc.movements.filter(move => move < 0).reduce((accu, currVal) => accu + currVal);
   labelSumOut.textContent = `${outcomes} EUR`;
 
-  const interest = movements
+  const interest = acc.movements
   .filter(move => move > 0)
-  .map(deposit => deposit * 1.2 / 100)
-  .filter((int, i, arr) => {
-    console.log(arr);
+  .map(deposit => deposit * acc.interestRate / 100)
+  .filter(int => {
     return int >= 1;
   })
   .reduce((accu, currVal) => accu + currVal);
@@ -118,7 +116,52 @@ const calcDisplaySummary = movements => {
   labelSumInterest.textContent = interest;
 }
 
-calcDisplaySummary(account1.movements);
+const updateUI = acc => {
+  displayMovements(acc.movements);
+  calcPrintBalance(acc);
+  calcDisplaySummary(acc);
+}
+
+// Checking UserName and PIN and displaying UI
+let currentAccount;
+
+btnLogin.addEventListener('click', event => {
+  event.preventDefault();
+
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome back ${currentAccount.owner.split(' ')[0]}`;
+    containerApp.style.opacity = '100';
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+    inputLoginUsername.blur();
+    inputLoginPin.blur();
+  }
+
+  //Updating Movements Balance and Summary of current account
+  updateUI(currentAccount);
+})
+
+// Implementing transfer function
+btnTransfer.addEventListener('click', event => {
+  event.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const transferTo = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  inputTransferAmount.value = '';
+  inputTransferTo.value = '';
+
+  if (amount > 0 && transferTo && currentAccount.balance >= amount && transferTo?.username !== currentAccount.username) {
+    currentAccount.movements.push(-amount);
+    transferTo.movements.push(amount);
+
+    //Updating Movements Balance and Summary of current account
+    updateUI(currentAccount);
+  }
+})
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -150,3 +193,4 @@ const balance = movements.reduce((accu, currval) => accu + currval);
 // }
 
 // calcDogAgeinHumanYears([5,2,4,1,15,8,3]);
+

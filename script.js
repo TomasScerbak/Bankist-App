@@ -204,6 +204,7 @@ btnLoan.addEventListener('click', event => {
 })
 
 
+//Implementing sorting button
 let sorted = false;
 
 btnSort.addEventListener('click', event => {
@@ -212,41 +213,4 @@ btnSort.addEventListener('click', event => {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 })
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
 
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-
-// const deposits = movements.filter( element => element > 0);
-// const withdrawals = movements.filter( element => element < 0);
-// const balance = movements.reduce((accu, currval) => accu + currval);
-
-/////////////////////////////////////////////////
-
-// const calcDogAgeinHumanYears = function(ages) {
-
-//   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
-//   const adults = humanAges.filter(age => age <= 18);
-//   const average = humanAges.reduce((accu, currVal) => (accu + currVal) / humanAges.length);
-
-//   console.log(adults);
-//   console.log(humanAges);
-//   console.log(average);
-// }
-
-// calcDogAgeinHumanYears([5,2,4,1,15,8,3]);
-
-//
-
-// const arr = [1,65,158,1465,125,358,45];
-
-// arr.sort((a, b) => a - b);
-// console.log(arr);

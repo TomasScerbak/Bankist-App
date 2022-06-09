@@ -62,11 +62,13 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-const displayMovements = movements => {
+const displayMovements = (movements, sort = false) => {
 
   containerMovements.innerHTML = '';
 
-  movements.forEach( (movement, index) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach( (movement, index) => {
 
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
@@ -202,6 +204,14 @@ btnLoan.addEventListener('click', event => {
 })
 
 
+let sorted = false;
+
+btnSort.addEventListener('click', event => {
+  event.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+})
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -234,3 +244,9 @@ btnLoan.addEventListener('click', event => {
 
 // calcDogAgeinHumanYears([5,2,4,1,15,8,3]);
 
+//
+
+// const arr = [1,65,158,1465,125,358,45];
+
+// arr.sort((a, b) => a - b);
+// console.log(arr);

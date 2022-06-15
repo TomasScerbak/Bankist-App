@@ -240,6 +240,11 @@ btnTransfer.addEventListener('click', event => {
 
     //Updating Movements Balance and Summary of current account
     updateUI(currentAccount);
+
+    //Reseting timer for logout
+    clearInterval(timer);
+    timer = startLogOutTimer();
+
   }
 })
 
@@ -283,6 +288,10 @@ btnLoan.addEventListener('click', event => {
 
   // Clearing input field
   inputLoanAmount.value = '';
+
+      //Reseting timer for logout
+      clearInterval(timer);
+      timer = startLogOutTimer();
 })
 
 

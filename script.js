@@ -180,12 +180,13 @@ const startLogOutTimer = () => {
   labelTimer.textContent = `${min}:${seconds}`;
   time--
 
-}, 1000)
+}, 1000);
+return timer;
 }
 
 
 // Checking UserName and PIN and displaying UI
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener('click', event => {
   event.preventDefault();
@@ -212,7 +213,8 @@ btnLogin.addEventListener('click', event => {
   labelDate.textContent = `${date}/${month}/${year} ${hour}:${minutes}`;
 
   //Starting timer until logout
-  startLogOutTimer();
+  if (timer) clearInterval(timer);
+  timer = startLogOutTimer();
 
   //Updating Movements Balance and Summary of current account
   updateUI(currentAccount);

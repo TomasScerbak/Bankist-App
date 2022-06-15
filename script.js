@@ -84,25 +84,34 @@ const btnSort = document.querySelector('.btn--sort');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
-const inputTransferAmount = document.querySelector('.form__input--amount');
+const  inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-const displayMovements = (movements, sort = false) => {
+const displayMovements = (acc, sort = false) => {
 
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach( (movement, index) => {
 
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
+    const date = new Date(acc.movementsDates[index]);
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const year = date.getFullYear();
+
+    const displayDate = `${day}/${month}/${year}`;
+
+
     const html = `
   <div class="movements__row">
     <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
+    <div class="movements__date">${displayDate}</div>
     <div class="movements__value">${movement.toFixed(2)} EUR</div>
   </div>
     `;
@@ -147,7 +156,7 @@ const calcDisplaySummary = (acc) => {
 }
 
 const updateUI = acc => {
-  displayMovements(acc.movements);
+  displayMovements(acc);
   calcPrintBalance(acc);
   calcDisplaySummary(acc);
 }
@@ -187,6 +196,10 @@ btnTransfer.addEventListener('click', event => {
     currentAccount.movements.push(-amount);
     transferTo.movements.push(amount);
 
+    //Add transfer date
+    currentAccount.movementsDates.push(new Date());
+    transferTo.movementsDates.push(new Date());
+
     //Updating Movements Balance and Summary of current account
     updateUI(currentAccount);
   }
@@ -223,6 +236,9 @@ btnLoan.addEventListener('click', event => {
 // Loan is granted if there's at least one deposit which is 10% from the requested amount
   if (amount > 0 && currentAccount.movements.some(move => move >= amount / 10)) {
     currentAccount.movements.push(amount);
+
+  //Add loan date
+  currentAccount.movementsDates.push(new Date());
 
     updateUI(currentAccount);
   }

@@ -162,7 +162,7 @@ const updateUI = acc => {
 
 const startLogOutTimer = () => {
 // Set time to 5 min
-  let time = 10;
+  let time = 30;
 // Call the timer every second
   const timer = setInterval(() => {
 
@@ -172,7 +172,7 @@ const startLogOutTimer = () => {
   //When time at 0 stop timer and logout USER
   if (time === 0) {
     clearInterval(timer);
-    labelWelcome.textContent = '';
+    labelWelcome.textContent = 'Login to get started';
     containerApp.style.opacity = 0;
   }
 

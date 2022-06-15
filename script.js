@@ -107,7 +107,6 @@ const displayMovements = (acc, sort = false) => {
 
     const displayDate = `${day}/${month}/${year}`;
 
-
     const html = `
   <div class="movements__row">
     <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
@@ -177,6 +176,16 @@ btnLogin.addEventListener('click', event => {
     inputLoginUsername.blur();
     inputLoginPin.blur();
   }
+
+  // Implementing current time when user LOG IN
+  const now = new Date();
+  const date = `${now.getDate()}`.padStart(2, '0');
+  const month = `${now.getMonth() + 1}`.padStart(2, '0');
+  const year = now.getFullYear();
+  const hour = `${now.getHours()}`.padStart(2, '0');
+  const minutes = `${now.getMinutes()}`.padStart(2, '0');
+
+  labelDate.textContent = `${date}/${month}/${year} ${hour}:${minutes}`;
 
   //Updating Movements Balance and Summary of current account
   updateUI(currentAccount);
@@ -259,12 +268,10 @@ btnSort.addEventListener('click', event => {
 })
 
 
-// Implementing current time when user LOG IN
-const now = new Date();
-const date = `${now.getDate()}`.padStart(2, '0');
-const month = `${now.getMonth() + 1}`.padStart(2, '0');
-const year = now.getFullYear();
-const hour = now.getHours();
-const minutes = now.getMinutes();
 
-labelDate.textContent = `${date}/${month}/${year} ${hour}:${minutes}`;
+
+
+const num = 3548745.35;
+console.log('US:  ', new Intl.NumberFormat('en-US').format(num));
+console.log('Germany:  ', new Intl.NumberFormat('de-DE').format(num));
+console.log('Syria:  ', new Intl.NumberFormat('ar-SY').format(num));

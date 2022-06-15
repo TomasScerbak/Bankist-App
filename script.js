@@ -21,7 +21,7 @@ const account1 = {
     '2020-07-11T23:36:17.929Z',
     '2020-07-12T10:51:36.790Z',
   ],
-  
+
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
 };
@@ -243,6 +243,12 @@ btnSort.addEventListener('click', event => {
 })
 
 
-// Lectures
-const now = new Date().getTime();
-console.log(now);
+// Implementing current time when user LOG IN
+const now = new Date();
+const date = `${now.getDate()}`.padStart(2, '0');
+const month = `${now.getMonth() + 1}`.padStart(2, '0');
+const year = now.getFullYear();
+const hour = now.getHours();
+const minutes = now.getMinutes();
+
+labelDate.textContent = `${date}/${month}/${year} ${hour}:${minutes}`;

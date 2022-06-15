@@ -151,7 +151,7 @@ const calcDisplaySummary = (acc) => {
   })
   .reduce((accu, currVal) => accu + currVal);
 
-  labelSumInterest.textContent = interest.toFixed(2);
+  labelSumInterest.textContent = `${interest.toFixed(2)} EUR`;
 }
 
 const updateUI = acc => {
@@ -159,6 +159,30 @@ const updateUI = acc => {
   calcPrintBalance(acc);
   calcDisplaySummary(acc);
 }
+
+const startLogOutTimer = () => {
+// Set time to 5 min
+  let time = 10;
+// Call the timer every second
+  const timer = setInterval(() => {
+
+  let min = String(Math.trunc(time / 60)).padStart(2, '0');
+  let seconds = String(time % 60).padStart(2, '0');
+
+  //When time at 0 stop timer and logout USER
+  if (time === 0) {
+    clearInterval(timer);
+    labelWelcome.textContent = '';
+    containerApp.style.opacity = 0;
+  }
+
+//In each call, print the remaining time to UI
+  labelTimer.textContent = `${min}:${seconds}`;
+  time--
+
+}, 1000)
+}
+
 
 // Checking UserName and PIN and displaying UI
 let currentAccount;
@@ -186,6 +210,9 @@ btnLogin.addEventListener('click', event => {
   const minutes = `${now.getMinutes()}`.padStart(2, '0');
 
   labelDate.textContent = `${date}/${month}/${year} ${hour}:${minutes}`;
+
+  //Starting timer until logout
+  startLogOutTimer();
 
   //Updating Movements Balance and Summary of current account
   updateUI(currentAccount);
